@@ -16,8 +16,9 @@ Contributions are always welcome!
 
 ABC uses Python 3.10, used libraries are all in requirements.txt.
 
-
 `main.py` starts the application, the argument `no_mods` can be used for quicker starting times during development. `extract_assets_xml.py` and `filter_icons.py` are used to extract and process the raw game assets in `/raw/ `.
+
+`setup.py` is used to compile to a standalone application using cx_Freeze. Configuration is found in this py file.
 
 
 ## Credits
