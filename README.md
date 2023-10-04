@@ -26,5 +26,6 @@ ABC uses Python 3.10, used libraries are all in requirements.txt.
 ## Credits
 
  - The awesome people in the Anno 1800 Modding Discord for technical help
+ - Muggenstuemer for `[Addon] A_Modified_Ornaments_Tab` which is bundled in the generated mod as dependency
  - Casper for being my annoying muse
 
