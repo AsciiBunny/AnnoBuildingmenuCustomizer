@@ -1,0 +1,69 @@
+{
+  "Version": "1.11",
+  "ModID": "A_Modified_Ornaments_Tab",
+  "IncompatibleIds": [],
+  "ModDependencies": [],
+  "Category": {
+    "Chinese": "Addon",
+    "English": "Addon",
+    "French": "Addon",
+    "German": "Addon",
+    "Italian": "Addon",
+    "Japanese": "Addon",
+    "Korean": "Addon",
+    "Polish": "Addon",
+    "Russian": "Addon",
+    "Spanish": "Addon",
+    "Taiwanese": "Addon"
+  },
+    "ModName": {
+    "Chinese": "A_Modified_Ornaments_Tab",
+    "English": "A_Modified_Ornaments_Tab",
+    "French": "A_Modified_Ornaments_Tab",
+    "German": "A_Modified_Ornaments_Tab",
+    "Italian": "A_Modified_Ornaments_Tab",
+    "Japanese": "A_Modified_Ornaments_Tab",
+    "Korean": "A_Modified_Ornaments_Tab",
+    "Polish": "A_Modified_Ornaments_Tab",
+    "Russian": "A_Modified_Ornaments_Tab",
+    "Spanish": "A_Modified_Ornaments_Tab",
+    "Taiwanese": "A_Modified_Ornaments_Tab"
+  },
+  "Description": {
+    "Chinese": null,
+    "English": "This mod adds two more tabs to the already existing ornaments menu and exports this ornaments menu structure also to Arctis and Enbesa.\nEvery modder is invited to use this menu !\nThe aim is to reduce the load on existing tabs and make it easier to search.",
+    "French": "Ce mod ajoute deux onglets supplémentaires au menu d'ornementation déjà existant et exporte également cette structure de menu d'ornementation dans Arctis et Enbesa.\nTous les moddeurs sont invités à utiliser ce menu !\nL'objectif est d'alléger les onglets existants et de permettre une recherche plus facile.",
+    "German": "Dieser Mod ergänzt das bereits vorhandene Ornamentenmenü um zwei weitere Tabs und exportiert diese Ornamentenmenü Struktur auch in die Arctis und Enbesa.\nJeder Modder ist eingeladen,dieses Menü zu nutzen !\nZiel ist es vorhandene Tabs zu entlasten und eine einfachere suche zu ermöglichen.",
+    "Italian": null,
+    "Japanese": null,
+    "Korean": null,
+    "Polish": "Ten mod dodaje dwie dodatkowe zakładki do już istniejącego menu ozdób i eksportuje tę strukturę menu ozdób również do Arctis i Enbesa.\nZapraszamy każdego moddera do korzystania z tego menu !\nCelem jest zmniejszenie obciążenia istniejących zakładek i ułatwienie wyszukiwania.",
+    "Russian": null,
+    "Spanish": null,
+    "Taiwanese": null
+  },
+  "KnownIssues": [
+    {
+      "Chinese": null,
+      "English": null,
+      "French": null,
+      "German": null,
+      "Italian": null,
+      "Japanese": null,
+      "Korean": null,
+      "Polish": null,
+      "Russian": null,
+      "Spanish": null,
+      "Taiwanese": null
+    }
+  ],
+  "DLCDependencies": [
+    {
+      "DLC": null,
+      "Dependant": null
+    }
+  ],
+  "CreatorName": "muggenstuermer",
+  "CreatorContact": "https://www.nexusmods.com/anno1800/users/74331668",
+  "Image" : null
+}
