@@ -6,10 +6,6 @@
     * 102159 Square basegame asset that is not loaded?
         * Jakob found a building that is not used by the game in any category
 
-* **Git**
-    * repo
-    * readme
-    * github
 
 ## To Consider Later
 

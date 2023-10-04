@@ -3,6 +3,8 @@
 
 As dlc's and mods add more and more options to your building-menu it can quickly feel cluttered. This tool lets you change it to your liking and then generate a mod to put it in game.
 
+![screenshot](./screenshot.png)
+
 
 ## Installation
 
