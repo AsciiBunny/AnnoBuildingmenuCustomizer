@@ -4,6 +4,7 @@ from pathlib import Path
 import chardet
 
 from data import config
+from data.util import safeget
 
 
 def open_auto_encoding(path: Path, mode):
@@ -34,12 +35,16 @@ class Mod:
         with open_auto_encoding(json_path, 'rt') as modinfo_f:
             try:
                 self.modinfo = json.load(modinfo_f)
-                self.name = self.modinfo["ModID"]
-                self.full_name = f'[{self.modinfo["Category"]["English"]}] {self.modinfo["ModName"]["English"]}'
-                self.version = self.modinfo["Version"]
-                self.load_after = self.modinfo["LoadAfterIds"] if "LoadAfterIds" in self.modinfo else []
+                self.name = safeget(self.modinfo, "ModID", self.path.parts[-1])
+                self.version = safeget(self.modinfo, "Version", "unknown")
+                self.load_after = safeget(self.modinfo, "LoadAfterIds", [])
+                try:
+                    self.full_name = f'[{self.modinfo["Category"]["English"]}] {self.modinfo["ModName"]["English"]}'
+                except:
+                    self.full_name = self.name
             except:
                 self._default_json_values()
+                print("[Warning]", self.path.parts[-1], "has an invalid modinfo.json")
 
     def _default_json_values(self):
         self.valid_modinfo = False

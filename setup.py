@@ -18,8 +18,8 @@ base = "Win32GUI" if sys.platform == "win32" else None
 
 setup(
     name="abc",
-    version="0.1",
+    version="0.9.1",
     description="Anno Building-menu Customizer",
     options={"build_exe": build_exe_options},
-    executables=[Executable("main.py", base=base)],
+    executables=[Executable("main.py", base=base, target_name="abc")],
 )

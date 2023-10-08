@@ -14,7 +14,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.menu_state = menu_state
 
-        self.title("Anno Building-menu Customizer (ABC)")
+        self.title("Anno Building-menu Customizer v0.9.1 (ABC)")
         self.resizable(False, False)
 
         self.bind("<Configure>", self.on_configure)

@@ -1,5 +1,5 @@
 {
-  "Version": "0.1.0",
+  "Version": "0.9.1",
   "ModID": "beau_customized_building_menu",
   "LoadAfterIds": ["*"],
   "Category": {

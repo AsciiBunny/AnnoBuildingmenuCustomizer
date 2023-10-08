@@ -6,6 +6,7 @@
     * 102159 Square basegame asset that is not loaded?
         * Jakob found a building that is not used by the game in any category
 
+* improve upon build process?
 
 ## To Consider Later
 
