@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 from tkinter import messagebox, filedialog
 
-MOD_IO_FOLDER = ""
+MOD_IO_FOLDER = Path("")
 MOD_FOLDERS = []
 
 _config_tried_to_load = False
@@ -50,6 +50,7 @@ def _load_config(config):
                     break
             if "mod.io_folder" not in config:
                 config["has_no_mod.io"] = True
+                MOD_IO_FOLDER = Path()
 
     try:
         assert type(config["mod_folders"]) == list

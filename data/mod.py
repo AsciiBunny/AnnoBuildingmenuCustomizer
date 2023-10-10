@@ -77,6 +77,12 @@ class Mod:
 
 
 def load_mods_in_path(path: Path, folder_glob: str, mods: dict[str, Mod]):
+    if type(path) != Path:
+        path = Path(path)
+    if not path.exists():
+        print("[Warning]", "Tried to load mods from invalid path:", path)
+        return set()
+
     mod_folders = [folder.parent for folder in list(path.glob("**/modinfo.json"))]
     mod_folders = list(set(mod_folders) | set([folder for folder in path.glob(folder_glob) if folder.is_dir()]))
     mod_names = set()
