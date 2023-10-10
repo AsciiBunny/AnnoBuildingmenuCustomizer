@@ -570,7 +570,9 @@ def construct_xml(mod_path: Path, path: Path, glob: str):
 
     file = open_auto_encoding(asset_files[0], "r")
     xml = etree.parse(file, parser=XMLParser(recover=True, remove_comments=True))
-    assert xml.getroot().tag == "ModOps"
+    if xml.getroot().tag.casefold() != "ModOps".casefold():
+        print("[Warning]", "Invalid xml file:", path, glob)
+        return
 
     includes: list[_Element] = xml.xpath("//Include")
     for include in includes:

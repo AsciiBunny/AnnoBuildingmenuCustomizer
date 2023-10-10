@@ -7,6 +7,7 @@
         * Jakob found a building that is not used by the game in any category
 
 * improve upon build process?
+* app cannot handle user having no mod.io folder
 
 ## To Consider Later
 

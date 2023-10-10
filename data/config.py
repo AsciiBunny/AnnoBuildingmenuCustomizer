@@ -63,7 +63,7 @@ def _load_config(config):
     except Exception as e:
         while messagebox.askyesno("Generating config", "Could not find your manual mods folder, do you have one?"):
             given_folder = filedialog.askdirectory(title="Manual mods folder location", mustexist=True)
-            if Path(given_folder).exists() and Path(given_folder).name == "mods":
+            if Path(given_folder).exists() and Path(given_folder).name.casefold() == "mods".casefold():
                 config["mod_folders"] = [given_folder]
                 MOD_FOLDERS = config["mod_folders"]
                 MOD_FOLDERS = [Path(folder) for folder in MOD_FOLDERS]
