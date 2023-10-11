@@ -24,6 +24,7 @@ class WorkspaceWindow(tk.Toplevel):
         self.notebook.grid(sticky="nesw")
 
         self.workspace_category = ConstructionCategory(-1, "workspace", "Workspace", "no_img")
+        self.workspace_category.parentNode = True
         self.workspace_panel = ConstructionCategoryPanel(self.notebook, self.workspace_category)
         self.notebook.add(self.workspace_panel, text="Workspace", sticky="ns")
 

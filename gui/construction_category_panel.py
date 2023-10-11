@@ -75,12 +75,12 @@ class ConstructionCategoryPanel(ttk.Frame):
         widget_index = self.items.index(widget)
 
         if target_item not in self.items:
-            if type(widget.item) == ConstructionCategory:
+            target_panel = find_containing_parent_type(target, ConstructionCategoryPanel)
+            if type(widget.item) == ConstructionCategory and not target_panel.construction_category.parentNode:
                 return
             building = self.construction_category.contents[widget_index]
             self.remove_item(widget)
             ConstructionCategoryPanel.current_held = None
-            target_panel = find_containing_parent_type(target, ConstructionCategoryPanel)
             target_panel.insert_item(building)
             return
 
