@@ -360,9 +360,6 @@ def import_construction_category_contents(node: _Element, menu_state: MenuState)
 
         reference = menu_state.get(item_guid) if menu_state.is_in(item_guid) else None
 
-        if type(reference) == ConstructionCategory:
-            construction_category.parentNode = True
-
         if not reference:
             print("[Warning]", "unloaded reference:", item_guid, "in", guid, construction_category.name)
             continue
@@ -582,6 +579,13 @@ def construct_xml(mod_path: Path, path: Path, glob: str):
             include.addnext(op)
 
     return xml
+
+
+def mark_parent_categories(menu: MenuState):
+    for session, tab in menu.menu.items():
+        for tab_type in TabType:
+            for category in tab.get_list(tab_type):
+                category.parentNode = True
 
 
 def store_base_state(menu: MenuState):
