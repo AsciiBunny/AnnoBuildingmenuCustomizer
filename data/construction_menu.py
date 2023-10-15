@@ -7,6 +7,7 @@ from pathlib import Path
 from lxml import etree
 from lxml.etree import _Element, XMLParser
 
+from data import values
 from data.mod import Mod, open_auto_encoding
 from data.util import resource_path
 
@@ -492,7 +493,7 @@ def read_mod_assets(menu_state: MenuState, mods: dict[str, Mod], load_order: lis
 
 
 def read_mod_content(menu_state: MenuState, mod: Mod):
-    if mod.name == "beau_customized_building_menu":
+    if mod.name == values.GENERATED_MOD_ID:
         return
     # print("[Loading]", mod.full_name, mod.path)
     xml = construct_xml(mod.path, mod.path, "./data/config/export/main/asset/assets.xml")
@@ -529,7 +530,7 @@ def read_mod_content(menu_state: MenuState, mod: Mod):
 
 
 def read_mod_menu_additions(menu_state: MenuState, mod: Mod):
-    if mod.name == "beau_customized_building_menu":
+    if mod.name == values.GENERATED_MOD_ID:
         return
     # todo Custom logging level [LOADING]?
     logging.info("Loading: %s %s", mod.full_name, mod.path)
