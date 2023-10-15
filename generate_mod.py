@@ -1,3 +1,4 @@
+import logging
 import shutil
 from pathlib import Path
 
@@ -21,7 +22,7 @@ def generate_mod(construction_menu: dict[Session, ConstructionMenuTab], out_fold
 
     xml_path = Path(out_folder / "data" / "config" / "export" / "main" / "asset" / "assets.xml")
     new_doc.write(xml_path, pretty_print=True)
-    print("Exported mod")
+    logging.info("Exported mod")
 
 
 def copy_mod_folder(out_folder: Path):

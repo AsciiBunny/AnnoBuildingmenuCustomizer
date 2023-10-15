@@ -1,4 +1,5 @@
 import json
+import logging
 from pathlib import Path
 
 import chardet
@@ -44,7 +45,7 @@ class Mod:
                     self.full_name = self.name
             except:
                 self._default_json_values()
-                print("[Warning]", self.path.parts[-1], "has an invalid modinfo.json")
+                logging.warning("%s has an invalid modinfo.json", self.path.parts[-1])
 
     def _default_json_values(self):
         self.valid_modinfo = False
@@ -80,7 +81,7 @@ def load_mods_in_path(path: Path, folder_glob: str, mods: dict[str, Mod]):
     if type(path) != Path:
         path = Path(path)
     if not path.exists():
-        print("[Warning]", "Tried to load mods from invalid path:", path)
+        logging.warning("Tried to load mods from invalid path: %s", path)
         return set()
 
     mod_folders = [folder.parent for folder in list(path.glob("**/modinfo.json"))]
@@ -94,7 +95,7 @@ def load_mods_in_path(path: Path, folder_glob: str, mods: dict[str, Mod]):
             mods[mod.name] = mod
             mod_names.add(mod.name)
         else:
-            print("keeping", mods[mod.name], "over", mod, mod.path)
+            logging.info("keeping %s over %s %s", mods[mod.name], mod, mod.path)
     return mod_names
 
 
@@ -148,14 +149,14 @@ def load_mods():
     modio_mods = load_mods_in_path(config.MOD_IO_FOLDER, "*/*/", mods)
     for mod in mods.values():
         mod.is_modio_mod = True
-    print(len(modio_mods), "mod.io mods loaded")
+    logging.info("%d mod.io mods loaded", len(modio_mods))
 
     user_mods = []
     for location in config.MOD_FOLDERS:
         user_mods += load_mods_in_path(location, "*/", mods)
-    print(len(user_mods), "user mods loaded")
+    logging.info("%d user mods loaded", len(user_mods))
 
-    print(len(user_mods) + len(modio_mods), "total mods loaded")
+    logging.info("%d total mods loaded", len(user_mods) + len(modio_mods))
 
     load_order = sort_load_order(mods)
 

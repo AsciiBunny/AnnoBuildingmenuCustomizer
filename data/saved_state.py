@@ -1,4 +1,5 @@
 import json
+import logging
 import traceback
 
 from data.construction_menu import MenuState
@@ -56,7 +57,7 @@ def load_state(file_name: str, menu_state: MenuState):
                     category.contents.remove(item)
 
     except Exception as error:
-        print("Tried to load invalid state:")
+        logging.error("Tried to load invalid state:")
         traceback.print_tb(error.__traceback__)
         return False, []
 

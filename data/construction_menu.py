@@ -1,3 +1,4 @@
+import logging
 import re
 from dataclasses import dataclass, field
 from enum import Enum
@@ -160,8 +161,9 @@ def clean_icon_path(icon_path: Path, mod_path: Path):
     if path.exists():
         return path
 
-    print(mod_path, icon_path)
-    print(mod_icon_path, path)
+    logging.warning("no icon found:")
+    # logging.warning("  %s %s", mod_path, icon_path)
+    logging.warning("  %s %s", mod_icon_path, path)
     return "no_img"
 
 
@@ -171,7 +173,7 @@ def import_extracted_buildings(root: _Element, base_game: Mod):
         building = import_building(building_node, base_game)
         buildings[building.guid] = building
 
-    print("[Info] Loaded", len(buildings.keys()), "Buildings from xml")
+    logging.info("Loaded %d Buildings from xml", len(buildings.keys()))
     return buildings
 
 
@@ -184,14 +186,14 @@ def import_building(building_node: _Element, mod: Mod):
     sessions = []
 
     if name == "":
-        print("[Warning] Empty name:", etree.tostring(building_node))
+        logging.warning("Empty name: %s", etree.tostring(building_node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
     if len(regions_text) > 0:
         for region in regions_text[0].split(";"):
             if region not in Session._value2member_map_:
-                print("[Warning] Invalid region:", region)
+                logging.warning("Invalid region: %s", region)
                 continue
             session = Session(region)
             sessions.append(session)
@@ -207,14 +209,14 @@ def extend_building(node: _Element, base_asset: Building, mod: Mod):
     sessions = []
 
     if name == "":
-        print("[Warning] Empty name:", etree.tostring(node))
+        logging.warning("Empty name: %s", etree.tostring(node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
     if len(regions_text) > 0:
         for region in regions_text[0].split(";"):
             if region not in Session._value2member_map_:
-                print("[Warning] Invalid region:", region)
+                logging.warning("Invalid region: %s", region)
                 continue
             session = Session(region)
             sessions.append(session)
@@ -229,7 +231,7 @@ def import_extracted_production_chains(root: _Element, base_game: Mod):
         production_chain = import_production_chain(chain_node, base_game)
         production_chains[production_chain.guid] = production_chain
 
-    print("[Info] Loaded", len(production_chains.keys()), "Production Chains from xml")
+    logging.info("Loaded %d Production Chains from xml", len(production_chains.keys()))
     return production_chains
 
 
@@ -240,7 +242,7 @@ def import_production_chain(chain_node: _Element, mod: Mod):
     icon_path = (chain_node.xpath("Standard/IconFilename/text()") or [""])[0]
 
     if name == "":
-        print("[Warning] Empty name:", etree.tostring(chain_node))
+        logging.warning("Empty name: %s", etree.tostring(chain_node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
@@ -254,7 +256,7 @@ def extend_production_chain(chain_node: _Element, base_asset: Building, mod: Mod
     icon_path = (chain_node.xpath("Standard/IconFilename/text()") or [base_asset.icon_path])[0]
 
     if name == "":
-        print("[Warning] Empty name:", etree.tostring(chain_node))
+        logging.warning("Empty name: %s", etree.tostring(chain_node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
@@ -306,7 +308,7 @@ def import_extracted_construction_categories(root: _Element, menu_state: MenuSta
         if guid in construction_categories:
             import_construction_category_contents(extension_node, menu_state)
 
-    print("[Info]", "Loaded", len(construction_categories.keys()), "Construction Categories from xml")
+    logging.info("Loaded %d Construction Categories from xml", len(construction_categories.keys()))
     return construction_categories
 
 
@@ -318,7 +320,7 @@ def import_construction_category(node: _Element, mod: Mod):
     icon_path = (node.xpath("Standard/IconFilename/text()") or [""])[0]
 
     if text == "" and False:
-        print("[Warning]", "Unnamed category: ", etree.tostring(node))
+        logging.warning("Unnamed category: %s", etree.tostring(node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
@@ -332,7 +334,7 @@ def extend_construction_category(node: _Element, base_category, mod: Mod):
     icon_path = (node.xpath("Standard/IconFilename/text()") or [base_category.icon_path])[0]
 
     if text == "" and False:
-        print("[Warning]", "Unnamed category: ", etree.tostring(node))
+        logging.warning("Unnamed category: %s", etree.tostring(node))
 
     icon_path = clean_icon_path(icon_path, mod.path)
 
@@ -355,13 +357,13 @@ def import_construction_category_contents(node: _Element, menu_state: MenuState)
             vector_index = int(vector_node[0].text)
             item_guid = construction_category.base_category.contents[vector_index].guid
         else:
-            print("[Warning]", "Invalid ConstructionCategory/Item: ", guid, construction_category.name)
+            logging.warning("Invalid ConstructionCategory/Item: %s[%d]", construction_category.name, guid)
             continue
 
         reference = menu_state.get(item_guid) if menu_state.is_in(item_guid) else None
 
         if not reference:
-            print("[Warning]", "unloaded reference:", item_guid, "in", guid, construction_category.name)
+            logging.warning("unloaded reference: %d in %s[%d]", item_guid, construction_category.name, guid)
             continue
 
         construction_category.contents.append(reference)
@@ -379,7 +381,7 @@ def import_construction_category_additions(root: _Element, menu_state: MenuState
                 guids = [category_guid for category_guid in menu_state.construction_categories.keys()]
                 only_if_found = True
             else:
-                print("[Warning]", "Too complex: ", etree.tostring(element))
+                logging.warning("Too complex: %s", etree.tostring(element))
                 continue
         else:
             guids = [int(guid.strip()) for guid in element.get("GUID").split(",")]
@@ -414,7 +416,7 @@ def import_construction_category_additions(root: _Element, menu_state: MenuState
                         assert menu_state.get(building_guid)
                         category.contents.insert(target_index, menu_state.get(building_guid))
                     else:
-                        print("[Warning]", "unloaded reference:", building_guid, "in", guid, category.name)
+                        logging.warning("unloaded reference: [%d] in %s[%d]", building_guid, category.name, guid)
 
 
 def import_construction_menu(root: _Element, construction_categories: dict[int, ConstructionCategory]):
@@ -434,7 +436,7 @@ def import_construction_menu(root: _Element, construction_categories: dict[int, 
         menu_item = ConstructionMenuTab(by_tier, by_category, decorations_by_source, decorations_by_category)
         menu[session] = menu_item
 
-    print("[Info]", "Loaded 1 Construction Menu from xml")
+    logging.info("Loaded 1 Construction Menu from xml")
     return menu
 
 
@@ -450,7 +452,7 @@ def import_construction_menu_tab(node: [_Element], construction_categories: dict
         category_id = int(category_id)
         category = construction_categories[category_id] if category_id in construction_categories.keys() else None
         if not category:
-            print("Invalid construction menu category [", category_id, "] in", node.getparent().tag, "/", node.tag)
+            logging.warning("Invalid construction menu category [%d] in %s / %s", category_id, node.getparent().tag, node.tag)
         menu_tab_categories.append(category)
 
     return menu_tab_categories
@@ -474,7 +476,7 @@ def read_extracted_assets() -> MenuState:
     for category in construction_categories:
         if construction_categories[category].parentNode:
             parent_nodes += 1
-    print("[Info]", parent_nodes, "Parent categories")
+    logging.info("%d parent categories", parent_nodes)
 
     menu = import_construction_menu(root, construction_categories)
 
@@ -519,7 +521,7 @@ def read_mod_content(menu_state: MenuState, mod: Mod):
             menu_state.production_chains[production_chain.guid] = production_chain
         elif base_asset_guid in menu_state.construction_categories:
             building = import_building(values_node, mod)
-            print("[Warning] Unloaded base asset:", base_asset_guid, building.name)
+            logging.warning("Unloaded base asset: %s[%d]", building.name, base_asset_guid)
         else:
             pass
             # building = import_building(values_node, mod)
@@ -529,7 +531,8 @@ def read_mod_content(menu_state: MenuState, mod: Mod):
 def read_mod_menu_additions(menu_state: MenuState, mod: Mod):
     if mod.name == "beau_customized_building_menu":
         return
-    print("[Loading]", mod.full_name, mod.path)
+    # todo Custom logging level [LOADING]?
+    logging.info("Loading: %s %s", mod.full_name, mod.path)
     xml = construct_xml(mod.path, mod.path, "./data/config/export/main/asset/assets.xml")
     if not xml:
         return
@@ -542,7 +545,7 @@ def read_mod_menu_additions(menu_state: MenuState, mod: Mod):
             if mod.name == "A_Modified_Ornaments_Tab":
                 continue
             else:
-                print("[Warning]", "Duplicate category:", construction_category.guid, construction_category.name)
+                logging.warning("Duplicate category: %s[%d]", construction_category.name, construction_category.guid)
         menu_state.construction_categories[construction_category.guid] = construction_category
 
     # Now import the contents
@@ -561,14 +564,14 @@ def construct_xml(mod_path: Path, path: Path, glob: str):
     asset_files = list(path.glob(glob))
     if len(asset_files) < 1:
         if glob != "./data/config/export/main/asset/assets.xml":
-            print("Does not exist:", path, glob)
+            logging.warning("Does not exist: %s %s", path, glob)
         return
     assert len(asset_files) == 1
 
     file = open_auto_encoding(asset_files[0], "r")
     xml = etree.parse(file, parser=XMLParser(recover=True, remove_comments=True))
     if xml.getroot().tag.casefold() != "ModOps".casefold():
-        print("[Warning]", "Invalid xml file:", path, glob)
+        logging.warning("Invalid xml file: %s %s", path, glob)
         return
 
     includes: list[_Element] = xml.xpath("//Include")

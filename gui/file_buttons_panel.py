@@ -1,3 +1,4 @@
+import logging
 from tkinter import filedialog, messagebox
 
 import ttkbootstrap as ttk
@@ -32,7 +33,7 @@ class FileButtonsPanel(ttk.Frame):
         filename = filedialog.askopenfilename(parent=self, filetypes=[["JSON", "json"]])
         if not filename:
             return
-        print("Loading:", filename)
+        logging.info("Loading: %s", filename)
         success, hidden_items = load_state(filename, self.menu_state)
         if success:
             self.on_load_state(hidden_items)
@@ -42,7 +43,7 @@ class FileButtonsPanel(ttk.Frame):
                                                 filetypes=[["JSON", "json"]])
         if not filename:
             return
-        print("Saving:", filename)
+        logging.info("Saving: %s", filename)
         save_state(filename, self.menu_state)
 
     def on_generate_button(self):
@@ -60,7 +61,7 @@ class FileButtonsPanel(ttk.Frame):
         generate_mod(self.menu_state.menu, out_dir_path)
 
         save_path = "./last_generated_state.json"
-        print("Saving:", save_path)
+        logging.info("Saving: %s", save_path)
         save_state(save_path, self.menu_state)
 
         messagebox.showinfo("ABC: Generating Mod",
