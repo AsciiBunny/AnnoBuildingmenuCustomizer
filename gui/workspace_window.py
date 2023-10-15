@@ -2,6 +2,7 @@ import tkinter as tk
 
 import ttkbootstrap as ttk
 
+from data import values
 from data.construction_menu import ConstructionCategory, MenuState
 from gui.construction_category_panel import ConstructionCategoryPanel
 
@@ -14,7 +15,7 @@ class WorkspaceWindow(tk.Toplevel):
         self.minsize(width=354, height=0)
         self.resizable(False, False)
         self.protocol("WM_DELETE_WINDOW", lambda: root.on_close(self))
-        self.title("ABC - Workspace")
+        self.title(values.SUB_WINDOW_NAME, "Workspace")
         self.attributes('-topmost', 'true')
 
         tk.Grid.rowconfigure(self, 0, weight=1)

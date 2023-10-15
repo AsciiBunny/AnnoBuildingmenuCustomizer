@@ -4,6 +4,7 @@ from tkinter import messagebox
 
 import ttkbootstrap as ttk
 
+from data import values
 from data.construction_menu import MenuState, Session, TabType
 from gui.construction_category_panel import ConstructionCategoryPanel
 from gui.file_buttons_panel import FileButtonsPanel
@@ -14,7 +15,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.menu_state = menu_state
 
-        self.title("Anno Building-menu Customizer v0.9.2 (ABC)")
+        self.title(values.MAIN_WINDOW_NAME)
         self.resizable(False, False)
 
         self.bind("<Configure>", self.on_configure)

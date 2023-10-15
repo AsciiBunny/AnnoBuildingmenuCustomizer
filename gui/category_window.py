@@ -1,5 +1,6 @@
 import tkinter as tk
 
+from data import values
 from data.construction_menu import ConstructionCategory
 import gui.construction_category_panel
 
@@ -10,7 +11,7 @@ class CategoryWindow(tk.Toplevel):
         self.minsize(width=354, height=0)
         self.resizable(False, False)
         self.name = category.text if category.text else category.name
-        self.title("ABC - " + self.name)
+        self.title(values.SUB_WINDOW_NAME + self.name)
 
         self.attributes('-topmost', 'true')
         # self.lift(root)
