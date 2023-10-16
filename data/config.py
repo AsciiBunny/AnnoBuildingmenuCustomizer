@@ -6,7 +6,6 @@ from tkinter import messagebox, filedialog
 MOD_IO_FOLDER = Path("")
 MOD_FOLDERS = []
 
-_config_tried_to_load = False
 _config_read_successfully = False
 
 
@@ -79,9 +78,6 @@ def _load_config(config):
 
 
 def read():
-    global _config_read_successfully, _config_tried_to_load
-    _config_tried_to_load = True
-
     config_file_path = Path("config.json")
 
     if not config_file_path.exists():

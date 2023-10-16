@@ -1,5 +1,5 @@
 
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 NAME = "Anno Building-menu Customizer"
 SHORT = "ABC"
 

@@ -5,7 +5,7 @@ from enum import Enum
 from pathlib import Path
 
 from lxml import etree
-from lxml.etree import _Element, XMLParser
+from lxml.etree import _Element, XMLParser, _ElementTree
 
 from data import values
 from data.mod import Mod, open_auto_encoding
@@ -485,17 +485,25 @@ def read_extracted_assets() -> MenuState:
 
 
 def read_mod_assets(menu_state: MenuState, mods: dict[str, Mod], load_order: list[str]):
+    loaded = []
     for mod_name in load_order:
-        read_mod_content(menu_state, mods[mod_name])
+        try:
+            read_mod_content(menu_state, mods[mod_name])
+            loaded.append(mod_name)
+        except:
+            logging.error("%s failed initial loading", mod_name)
 
-    for mod_name in load_order:
-        read_mod_menu_additions(menu_state, mods[mod_name])
+    for mod_name in loaded:
+        try:
+            read_mod_menu_additions(menu_state, mods[mod_name])
+        except:
+            logging.error("%s failed menu loading", mod_name)
 
 
 def read_mod_content(menu_state: MenuState, mod: Mod):
     if mod.name == values.GENERATED_MOD_ID:
         return
-    # print("[Loading]", mod.full_name, mod.path)
+    logging.info("Loading content: %s %s", mod.full_name, mod.path)
     xml = construct_xml(mod.path, mod.path, "./data/config/export/main/asset/assets.xml")
     if not xml:
         return
@@ -533,7 +541,7 @@ def read_mod_menu_additions(menu_state: MenuState, mod: Mod):
     if mod.name == values.GENERATED_MOD_ID:
         return
     # todo Custom logging level [LOADING]?
-    logging.info("Loading: %s %s", mod.full_name, mod.path)
+    logging.info("Loading menu: %s %s", mod.full_name, mod.path)
     xml = construct_xml(mod.path, mod.path, "./data/config/export/main/asset/assets.xml")
     if not xml:
         return
@@ -578,9 +586,10 @@ def construct_xml(mod_path: Path, path: Path, glob: str):
     includes: list[_Element] = xml.xpath("//Include")
     for include in includes:
         include_xml = construct_xml(mod_path, asset_files[0].parent, include.get("File"))
-        include_ops = include_xml.xpath("//ModOp")
-        for op in include_ops:
-            include.addnext(op)
+        if type(include_xml) == _ElementTree:
+            include_ops = include_xml.xpath("//ModOp")
+            for op in include_ops:
+                include.addnext(op)
 
     return xml
 
